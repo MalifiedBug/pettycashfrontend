@@ -4,7 +4,6 @@ import * as yup from "yup";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {api} from "./Global"
 
 const validationSchema = yup.object({
@@ -21,7 +20,6 @@ const validationSchema = yup.object({
 export default function SignIn() {
   
   const [message, setMessage] = useState(null)
-  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {

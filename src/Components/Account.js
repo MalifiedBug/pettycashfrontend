@@ -1,11 +1,8 @@
-import {Routes, Route} from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
 
 
 
 export default 
 function Account(){
-  const navigate = useNavigate();
   return(
     <div>
       <div style={{width:'100%', height: "3rem", backgroundColor: "blueviolet", display:"flex", flexDirection:"row", justifyContent:"center",alignItems:"center"}}>
@@ -38,26 +35,6 @@ function Account(){
 }
 
 
-function AllReceipts(){
-  return(
-    <div>
-      all receipts
-    </div>
-  )
-}
 
-function Managers(){
-  return(
-    <div>
-      all managers
-    </div>
-  )
-}
 
-function Summary(){
-  return(
-    <div>
-      all summary
-    </div>
-  )
-}
+

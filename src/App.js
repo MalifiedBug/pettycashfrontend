@@ -17,6 +17,7 @@ function App() {
       <ResponsiveAppBar />
       <Routes>
         <Route path="/home" element={<Home/>} />
+        <Route path="/" element={<Home/>} />
         <Route path="*" element={<NotFound/>} />
         <Route path="/addbill" element={<AddBill/>} />
         <Route path="/dashboard" element={<Dashboard/>} />
@@ -26,6 +27,7 @@ function App() {
         <Route path="/signin" element={<SignIn/>} />
         <Route path="/addbill" element={<AddBill/>} />
         <Route path="/resetpassword" element={<Reset/>} />
+        <Route path="/logout" element={<Home/>} />
       </Routes>
     </div>
   );
