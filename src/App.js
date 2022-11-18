@@ -1,25 +1,44 @@
-import logo from './logo.svg';
+import ResponsiveAppBar from './Components/Appbar';
 import './App.css';
+import {Routes, Route} from 'react-router-dom'
+import Home from './Components/Home';
+import AddBill from './Components/AddBill';
+import Dashboard from './Components/Dashboard';
+import Profile from './Components/Profile';
+import Account from './Components/Account';
+import NotFound from './Components/NotFound';
+import SignIn from './Components/SignIn';
+import SignUp from './Components/SignUp';
+import Reset from './Components/Reset';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ResponsiveAppBar />
+      <Routes>
+        <Route path="/home" element={<Home/>} />
+        <Route path="*" element={<NotFound/>} />
+        <Route path="/addbill" element={<AddBill/>} />
+        <Route path="/dashboard" element={<Dashboard/>} />
+        <Route path="/profile" element={<Profile/>} />
+        <Route path="/account" element={<Account/>} />
+        <Route path="/signup" element={<SignUp/>} />
+        <Route path="/signin" element={<SignIn/>} />
+        <Route path="/addbill" element={<AddBill/>} />
+        <Route path="/resetpassword" element={<Reset/>} />
+      </Routes>
     </div>
   );
 }
+
+
+
+
+
+
+
+
+
+
 
 export default App;
