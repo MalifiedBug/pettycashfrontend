@@ -13,25 +13,51 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import PaidIcon from "@mui/icons-material/Paid";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import Switch from "@mui/material/Switch";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormGroup from "@mui/material/FormGroup";
-import { useNavigate } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
+import { useState,useEffect } from "react";
+
+import {Routes, Route} from 'react-router-dom'
+import Home from './Components/Home';
+import AddBill from './Components/AddBill';
+import Dashboard from './Components/Dashboard';
+import Profile from './Components/Profile';
+import NotFound from './Components/NotFound';
+import SignIn from './Components/SignIn';
+import SignUp from './Components/SignUp';
+import Reset from './Components/Reset';
+import Protected from './Components/Profile';
+import SendEmail from './Components/SendEmail';
+
+
+
 
 const pages = ["Home", "Sign In", "Sign Up"];
 const pagesnavigate = ["home", "signin", "signup"];
-const settings = ["Add Bill","Profile", "Account", "Dashboard", "Logout"];
-const settingsnavigate = ["addbill","profile", "account", "dashboard", "logout"];
+const settings = ["Add Bill","Profile", "Dashboard", "Logout"];
+const settingsnavigate = ["addbill","profile", "dashboard", "logout"];
 
 function ResponsiveAppBar() {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const [auth, setAuth] = React.useState(false);
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
+  const [auth, setAuth] = useState(false);
+  const [href,setHref]= useState("")
   const navigate = useNavigate();
+  var responsemsg = localStorage.getItem("responsemsg")
 
-  const handleOpenNavMenu = (event) => {
+  useEffect(()=>{
+    if(responsemsg==="logged in"){
+      setAuth(true);
+      setHref("/profile")
+    }else{
+      setAuth(false);
+      setHref("/")
+    }
+  },[responsemsg])
+
+
+  function handleOpenNavMenu(event) {
     setAnchorElNav(event.currentTarget);
-  };
+  }
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -44,9 +70,9 @@ function ResponsiveAppBar() {
     setAnchorElUser(null);
   };
 
-  const handleChange = (event) => {
-    setAuth(event.target.checked);
-  };
+  // const handleChange = (event) => {
+  //   setAuth(event.target.checked);
+  // };
 
   const darkTheme = createTheme({
     palette: {
@@ -67,7 +93,7 @@ function ResponsiveAppBar() {
               variant="h6"
               noWrap
               component="a"
-              href="/"
+              href={href}
               sx={{
                 mr: 2,
                 display: { xs: "none", md: "flex" },
@@ -99,7 +125,7 @@ function ResponsiveAppBar() {
                 <MenuIcon />
               </IconButton>
               {/* Log In Log out toggle */}
-              <FormGroup>
+              {/* <FormGroup>
                 <FormControlLabel
                   control={
                     <Switch
@@ -110,7 +136,7 @@ function ResponsiveAppBar() {
                   }
                   label={auth ? "Logout" : "Login"}
                 />
-              </FormGroup>
+              </FormGroup> */}
               {/* Log in log out toggle */}
               <Menu
                 id="menu-appbar"
@@ -130,7 +156,7 @@ function ResponsiveAppBar() {
                   display: { xs: "block", md: "none" },
                 }}
               >
-                {pages.map((page, index) => (
+                {!auth?pages.map((page, index) => (
                   <MenuItem
                     key={page}
                     onClick={() => {
@@ -140,7 +166,7 @@ function ResponsiveAppBar() {
                   >
                     <Typography textAlign="center">{page}</Typography>
                   </MenuItem>
-                ))}
+                )):null}
               </Menu>
             </Box>
             <PaidIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
@@ -163,7 +189,7 @@ function ResponsiveAppBar() {
               PCM
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              {pages.map((page, index) => (
+              {!auth?pages.map((page, index) => (
                 <Button
                   key={page}
                   onClick={() => {
@@ -174,7 +200,7 @@ function ResponsiveAppBar() {
                 >
                   {page}
                 </Button>
-              ))}
+              )):null}
             </Box>
             {/* profile div toggle */}
             {auth ? (
@@ -232,6 +258,21 @@ function ResponsiveAppBar() {
           </Toolbar>
         </Container>
       </AppBar>
+      <Routes>
+        <Route path="/home" element={<Home/>} />
+        <Route path="/" element={<SignIn/>} />
+        <Route path="*" element={<NotFound/>} />
+        <Route path="/addbill" element={<AddBill/>} />
+        <Route path="/dashboard" element={<Dashboard/>} />
+        <Route path="/profile" element={<Profile/>} />
+        <Route path="/signup" element={<SignUp/>} />
+        <Route path="/signin" element={<SignIn/>} />
+        <Route path="/addbill" element={<AddBill/>} />
+        <Route path="/reset" element={<Reset/>} />
+        <Route path="/sendemail" element={<SendEmail />}/>
+        <Route path="/protected" element={<Protected />}/>
+        <Route path="/logout" element={<Home/>} />
+      </Routes>
     </ThemeProvider>
   );
 }

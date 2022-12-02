@@ -12,7 +12,7 @@ const MyTextInput = ({ label, ...props }) => {
       <label htmlFor={props.id || props.name}>{label}</label>
       <input className="text-input" {...field} {...props} />
       {meta.touched && meta.error ? (
-        <div className="error">{meta.error}</div>
+        <div className="error" style={{color:"red"}}>{meta.error}</div>
       ) : null}
     </>
   );
@@ -31,7 +31,7 @@ const MyCheckbox = ({ children, ...props }) => {
         {children}
       </label>
       {meta.touched && meta.error ? (
-        <div className="error">{meta.error}</div>
+        <div className="error"  style={{color:"red"}}>{meta.error}</div>
       ) : null}
     </div>
   );
@@ -44,7 +44,7 @@ const MySelect = ({ label, ...props }) => {
       <label htmlFor={props.id || props.name}>{label}</label>
       <select {...field} {...props} />
       {meta.touched && meta.error ? (
-        <div className="error">{meta.error}</div>
+        <div className="error"  style={{color:"red"}}>{meta.error}</div>
       ) : null}
     </div>
   );

@@ -4,6 +4,10 @@
   flex-direction: column;
 }
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .addbillmain{
   display: flex;
   flex-direction: column;

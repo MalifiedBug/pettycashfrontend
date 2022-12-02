@@ -1,86 +1,92 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import { DataGrid } from '@mui/x-data-grid';
-import Chart from './Chart';
+import * as React from "react";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
-const columns = [
-  { field: 'id', headerName: 'ID', width: 90 },
-  {
-    field: 'date',
-    headerName: 'Date',
-    width: 150,
-    editable: true,
-  },
-  {
-    field: 'firstName',
-    headerName: 'First name',
-    width: 150,
-    editable: true,
-  },
-  {
-    field: 'manager',
-    headerName: 'Approved By',
-    width: 150,
-    editable: true,
-  },
-  {
-    field: 'amount',
-    headerName: 'Amount Rs.',
-    width: 110,
-    editable: true,
-  },
-  {
-    field: 'details',
-    headerName: 'Summary',
-    type: 'number',
-    width: 110,
-    editable: true,
-  },
-  // {
-  //   field: 'fullName',
-  //   headerName: 'Full name',
-  //   description: 'This column has a value getter and is not sortable.',
-  //   sortable: false,
-  //   width: 160,
-  //   valueGetter: (params) =>
-  //     `${params.row.date || ''} ${params.row.firstName || ''}`,
-  // },
-];
+const TAX_RATE = 0.07;
+
+function ccyFormat(num) {
+  return `${num.toFixed(2)}`;
+}
+
+function priceRow(qty, unit) {
+  return qty * unit;
+}
+
+function createRow(desc, qty, unit) {
+  const price = priceRow(qty, unit);
+  return { desc, qty, unit, price };
+}
+
+function subtotal(items) {
+  return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0);
+}
 
 const rows = [
-  { id: 1, firstName: 'Snow', date: '2022-11-17', amount: 35, manager:"karan", details:'spend details' },
-  { id: 2, firstName: 'Lannister', date: '2022-11-17', amount: 42, manager:"tharun", details:'spend details' },
-  { id: 3, firstName: 'Lannister', date: '2022-11-17', amount: 45 , manager:"karan", details:'spend details'},
-  { id: 4, firstName: 'Stark', date: '2022-11-17', amount: 16 , manager:"kholi", details:'spend details'},
-  { id: 5, firstName: 'Targaryen', date: '2022-11-17', amount: null, manager:"shruthi" , details:'spend details'},
-  { id: 6, firstName: 'Melisandre', date: '2022-11-17', amount: 150, manager:"shruthi" , details:'spend details'},
-  { id: 7, firstName: 'Clifford', date: '2022-11-17', amount: 44, manager:"kholi" , details:'spend details'},
-  { id: 8, firstName: 'Frances', date: '2022-11-17', amount: 36, manager:"tharun" , details:'spend details'},
-  { id: 9, firstName: 'Roxie', date: '2022-11-17', amount: 65 , manager:"karan", details:'spend details'},
+  createRow('Paperclips (Box)', 100, 1.15),
+  createRow('Paper (Case)', 10, 45.99),
+  createRow('Waste Basket', 2, 17.99),
 ];
+
+const invoiceSubtotal = subtotal(rows);
+const invoiceTaxes = TAX_RATE * invoiceSubtotal;
+const invoiceTotal = invoiceTaxes + invoiceSubtotal;
+
 
 export default function Dashboard() {
   return (
     <div>
+      <div
+        style={{
+          width: "100%",
+          height: "3rem",
+          backgroundColor: "blueviolet",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <strong>Dashboard</strong>
+      </div>  
+      <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 700 }} aria-label="spanning table">
+        <TableHead>
+          <TableRow>
+            <TableCell align="center" colSpan={3}>
+              Details
+            </TableCell>
+            <TableCell align="right">Price</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Desc</TableCell>
+            <TableCell align="right">Qty.</TableCell>
+            <TableCell align="right">Unit</TableCell>
+            <TableCell align="right">Sum</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map((row) => (
+            <TableRow key={row.desc}>
+              <TableCell>{row.desc}</TableCell>
+              <TableCell align="right">{row.qty}</TableCell>
+              <TableCell align="right">{row.unit}</TableCell>
+              <TableCell align="right">{ccyFormat(row.price)}</TableCell>
+            </TableRow>
+          ))}
 
-<div style={{width:'100%', height: "3rem", backgroundColor: "blueviolet", display:"flex", flexDirection:"row", justifyContent:"center",alignItems:"center"}}>
-          <strong>Dashboard</strong>
-        </div>
-      
-      <h1> Spend History:
-        <Box sx={{ height: 400, width: '100%' }}>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pamountSize={5}
-            rowsPerPamountOptions={[5]}
-            checkboxSelection
-            disableSelectionOnClick
-            experimentalFeatures={{ newEditingApi: true }}
-          />
-        </Box>
-        <Chart />
-      </h1>
+            <TableRow>
+              <TableCell colSpan={2}>Total</TableCell>
+              <TableCell align="right">{ccyFormat(invoiceTotal)}</TableCell>
+            </TableRow>
+        
+        </TableBody>
+      </Table>
+    </TableContainer>   
     </div>
   );
 }
