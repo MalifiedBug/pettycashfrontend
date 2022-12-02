@@ -78,7 +78,7 @@ function ResponsiveAppBar() {
     palette: {
       mode: "dark",
       primary: {
-        main: "#1976d2",
+        main: "#212121",
       },
     },
   });
@@ -260,7 +260,7 @@ function ResponsiveAppBar() {
       </AppBar>
       <Routes>
         <Route path="/home" element={<Home/>} />
-        <Route path="/" element={<SignIn/>} />
+        <Route path="/" element={<Home/>} />
         <Route path="*" element={<NotFound/>} />
         <Route path="/addbill" element={<AddBill/>} />
         <Route path="/dashboard" element={<Dashboard/>} />
